@@ -1,10 +1,15 @@
+""" dag_datastore_backup.py
+Triggers an command to export Datastore to a google bucket using contrib operator
+built into Airflow distribution.
+
+"""
 from airflow import DAG
 from airflow.contrib.operators.datastore_export_operator import DatastoreExportOperator
 from datetime import datetime, timedelta
 from pathlib import Path
 
 # Uncomment to use Slack alert: https://github.com/tszumowski/airflow_slack_operator
-#from slack_operator import task_fail_slack_alert
+# from slack_operator import task_fail_slack_alert
 
 
 class MyDatastoreExportOperator(DatastoreExportOperator):
@@ -12,6 +17,7 @@ class MyDatastoreExportOperator(DatastoreExportOperator):
     Wrapper class to expose the Cloud Storage namespace (directory) as a template.
     That way we can create directories with a timestamped name.
     """
+
     template_fields = tuple(["namespace"])
 
 
@@ -23,8 +29,8 @@ default_args = {
     "email_on_failure": True,
     "email_on_retry": True,
     "retries": 3,  # Change retry settings for how many times it should try to export
-    "retry_delay": timedelta(minutes=5),  
-    #"on_failure_callback": task_fail_slack_alert,  # Uncomment to use Slack alert (see above)
+    "retry_delay": timedelta(minutes=5),
+    # "on_failure_callback": task_fail_slack_alert,  # Uncomment to use Slack alert
 }
 
 # Create the DAG with the parameters and schedule
@@ -32,7 +38,7 @@ default_args = {
 dag_name = Path(__file__).stem
 dag = DAG(
     dag_name,
-    catchup=False,  # Don't forget this so that it doesn't run and backfill since start date
+    catchup=False,  # Don't forget this so that it doesn't run and backfill since start
     default_args=default_args,
     schedule_interval=timedelta(days=1),  # Run daily
 )
@@ -42,7 +48,7 @@ with dag:
     # Access excution date template
     execution_date = "{{ execution_date }}"
 
-    # Create the Datastore Export task. Create a new 
+    # Create the Datastore Export task. Create a new
     # ISO 8601 timestamped directory for each backup
     t1 = MyDatastoreExportOperator(
         task_id="datastore_export",
