@@ -2,7 +2,7 @@
 
 This provides example usage for the Airflow Google Cloud Datastore Export Operator. 
 
-This Medium article, [Perform Daily Backups of Your Google Cloud Datastore using Airflow](https://medium.com/@tszumowski/slack-alerts-in-airflow-1fc16f322b51](https://medium.com/@tszumowski/perform-daily-backups-of-your-google-cloud-datastore-using-airflow-ec763b71c4a1), describes this code with some visuals.
+This Medium article, [Perform Daily Backups of Your Google Cloud Datastore using Airflow](https://medium.com/@tszumowski/perform-daily-backups-of-your-google-cloud-datastore-using-airflow-ec763b71c4a1), describes this code with some visuals.
 
 # Usage
 
